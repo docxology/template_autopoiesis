@@ -1,0 +1,17 @@
+# template_autopoiesis — standalone repo gitignore.
+# Unlike the monorepo copy, output/ IS tracked here (source + rendered
+# outputs both live in this repo — see docs/guides/publishing-guide.md
+# "Public exemplar release").
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+.benchmarks/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+dist/
+.DS_Store

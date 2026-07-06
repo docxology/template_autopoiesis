@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: template_autopoiesis
+Version: 0.1.0
+Summary: Autopoietic project generator: combinatoric specification, infrastructure realization, and recompute-verified provenance
+Requires-Python: >=3.10
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: pyyaml
+Requires-Dist: qrcode
+Requires-Dist: pillow
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: hypothesis; extra == "dev"
