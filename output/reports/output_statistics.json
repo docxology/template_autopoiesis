@@ -4,11 +4,11 @@
       "exists": true,
       "file_count": 10,
       "size_mb": "0.74",
-      "total_size_bytes": 775504,
+      "total_size_bytes": 779928,
       "largest_files": [
         {
           "name": "template_autopoiesis_combined.pdf",
-          "size_mb": "0.47",
+          "size_mb": "0.48",
           "path": "pdf/template_autopoiesis_combined.pdf"
         },
         {
@@ -38,7 +38,7 @@
       "exists": true,
       "file_count": 10,
       "size_mb": "0.33",
-      "total_size_bytes": 346400,
+      "total_size_bytes": 350846,
       "largest_files": [
         {
           "name": "index.html",
@@ -65,7 +65,7 @@
       "exists": true,
       "file_count": 65,
       "size_mb": "1.20",
-      "total_size_bytes": 1255131,
+      "total_size_bytes": 1261634,
       "largest_files": [
         {
           "name": "03_results_slides.pdf",
@@ -124,15 +124,10 @@
     },
     "data": {
       "exists": true,
-      "file_count": 4,
-      "size_mb": "0.13",
-      "total_size_bytes": 134808,
+      "file_count": 3,
+      "size_mb": "0.00",
+      "total_size_bytes": 2110,
       "largest_files": [
-        {
-          "name": "coverage_full.json",
-          "size_mb": "0.13",
-          "path": "data/coverage_full.json"
-        },
         {
           "name": "manuscript_variables.json",
           "size_mb": "0.00",
@@ -142,32 +137,43 @@
           "name": "publication_ledger.json",
           "size_mb": "0.00",
           "path": "data/publication_ledger.json"
+        },
+        {
+          "name": "test_coverage_summary.json",
+          "size_mb": "0.00",
+          "path": "data/test_coverage_summary.json"
         }
       ],
       "extensions": {
-        ".json": 4
+        ".json": 3
       }
     },
     "reports": {
       "exists": true,
-      "file_count": 2,
-      "size_mb": "0.00",
-      "total_size_bytes": 906,
+      "file_count": 4,
+      "size_mb": "0.01",
+      "total_size_bytes": 8418,
       "largest_files": [
+        {
+          "name": "output_statistics.json",
+          "size_mb": "0.01",
+          "path": "reports/output_statistics.json"
+        },
+        {
+          "name": "output_statistics.txt",
+          "size_mb": "0.00",
+          "path": "reports/output_statistics.txt"
+        },
         {
           "name": "test_results.json",
           "size_mb": "0.00",
           "path": "reports/test_results.json"
-        },
-        {
-          "name": "test_results.md",
-          "size_mb": "0.00",
-          "path": "reports/test_results.md"
         }
       ],
       "extensions": {
-        ".md": 1,
-        ".json": 1
+        ".json": 2,
+        ".txt": 1,
+        ".md": 1
       }
     },
     "simulations": {
@@ -189,12 +195,12 @@
       "total_size_bytes": 0
     }
   },
-  "total_files": 101,
-  "total_size_mb": 2.724715232849121,
+  "total_files": 102,
+  "total_size_mb": 2.6199893951416016,
   "largest_files": [
     {
       "name": "template_autopoiesis_combined.pdf",
-      "size_mb": "0.47",
+      "size_mb": "0.48",
       "category": "pdf",
       "path": "pdf/template_autopoiesis_combined.pdf"
     },
@@ -209,12 +215,6 @@
       "size_mb": "0.15",
       "category": "figures",
       "path": "figures/cover_art.png"
-    },
-    {
-      "name": "coverage_full.json",
-      "size_mb": "0.13",
-      "category": "data",
-      "path": "data/coverage_full.json"
     },
     {
       "name": "index.html",
@@ -251,6 +251,12 @@
       "size_mb": "0.07",
       "category": "slides",
       "path": "slides/03_results_slides.log"
+    },
+    {
+      "name": "01_introduction_slides.log",
+      "size_mb": "0.06",
+      "category": "slides",
+      "path": "slides/01_introduction_slides.log"
     }
   ],
   "missing_expected_files": [
@@ -259,12 +265,12 @@
     "logs/ directory"
   ],
   "sizes_by_category": {
-    "pdf": 0.7395782470703125,
-    "web": 0.330352783203125,
-    "slides": 1.196986198425293,
+    "pdf": 0.7437973022460938,
+    "web": 0.3345928192138672,
+    "slides": 1.2031879425048828,
     "figures": 0.3283710479736328,
-    "data": 0.12856292724609375,
-    "reports": 0.0008640289306640625
+    "data": 0.0020122528076171875,
+    "reports": 0.008028030395507812
   },
   "file_counts_by_type": {
     ".md": 3,
@@ -282,6 +288,7 @@
     ".snm": 8,
     ".png": 7,
     ".mmd": 2,
-    ".json": 6
+    ".json": 6,
+    ".txt": 1
   }
 }
