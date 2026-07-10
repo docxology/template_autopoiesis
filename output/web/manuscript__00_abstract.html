@@ -211,7 +211,9 @@ the real kernel from a deliberately-wrong one.</p>
     M --&gt; V[Verify\ntree-hash check]
     V --&gt; S[Seal\nQR provenance]</code></pre>
 <h3 id="grammar-product-space">Grammar product space</h3>
-<pre class="mermaid"><code>flowchart TB
+<pre class="mermaid"><code>%% noqa: docs-lint — {{...}} tokens are manuscript-variable placeholders
+%% (src/manuscript_variables.py) injected at render time, not literal mermaid
+flowchart TB
     A[primitive_domain: 5] --&gt; EP[Effective product: 45 cells]
     T[track: 3] --&gt; EP
     S[section_set: 3] --&gt; EP

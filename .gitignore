@@ -1,17 +1,12 @@
-# template_autopoiesis — standalone repo gitignore.
-# Unlike the monorepo copy, output/ IS tracked here (source + rendered
-# outputs both live in this repo — see docs/guides/publishing-guide.md
-# "Public exemplar release").
-.venv/
+# template_autopoiesis root gitignore — inherits parent repo's rules.
+# Local caches that should not be tracked. output/ IS tracked (like every
+# other public exemplar) — it is this project's reproducibility bundle.
 __pycache__/
 *.pyc
 .pytest_cache/
+.coverage
+htmlcov/
+benchmarks/
 .hypothesis/
-.benchmarks/
 .mypy_cache/
 .ruff_cache/
-htmlcov/
-.coverage
-.coverage.*
-dist/
-.DS_Store

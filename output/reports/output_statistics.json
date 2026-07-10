@@ -4,7 +4,7 @@
       "exists": true,
       "file_count": 10,
       "size_mb": "0.74",
-      "total_size_bytes": 779928,
+      "total_size_bytes": 779931,
       "largest_files": [
         {
           "name": "template_autopoiesis_combined.pdf",
@@ -65,7 +65,7 @@
       "exists": true,
       "file_count": 65,
       "size_mb": "1.20",
-      "total_size_bytes": 1261634,
+      "total_size_bytes": 1261642,
       "largest_files": [
         {
           "name": "03_results_slides.pdf",
@@ -96,9 +96,9 @@
     },
     "figures": {
       "exists": true,
-      "file_count": 10,
-      "size_mb": "0.33",
-      "total_size_bytes": 344322,
+      "file_count": 5,
+      "size_mb": "0.31",
+      "total_size_bytes": 321931,
       "largest_files": [
         {
           "name": "cover_art.png",
@@ -117,26 +117,19 @@
         }
       ],
       "extensions": {
-        ".png": 7,
-        ".mmd": 2,
-        ".json": 1
+        ".png": 5
       }
     },
     "data": {
       "exists": true,
-      "file_count": 3,
+      "file_count": 2,
       "size_mb": "0.00",
-      "total_size_bytes": 2110,
+      "total_size_bytes": 1187,
       "largest_files": [
         {
           "name": "manuscript_variables.json",
           "size_mb": "0.00",
           "path": "data/manuscript_variables.json"
-        },
-        {
-          "name": "publication_ledger.json",
-          "size_mb": "0.00",
-          "path": "data/publication_ledger.json"
         },
         {
           "name": "test_coverage_summary.json",
@@ -145,58 +138,71 @@
         }
       ],
       "extensions": {
-        ".json": 3
+        ".json": 2
       }
     },
     "reports": {
       "exists": true,
-      "file_count": 4,
-      "size_mb": "0.01",
-      "total_size_bytes": 8418,
+      "file_count": 15,
+      "size_mb": "0.36",
+      "total_size_bytes": 381731,
       "largest_files": [
         {
-          "name": "output_statistics.json",
-          "size_mb": "0.01",
-          "path": "reports/output_statistics.json"
+          "name": "artifact_manifest.json",
+          "size_mb": "0.19",
+          "path": "reports/artifact_manifest.json"
         },
         {
-          "name": "output_statistics.txt",
-          "size_mb": "0.00",
-          "path": "reports/output_statistics.txt"
+          "name": "evidence_registry.json",
+          "size_mb": "0.07",
+          "path": "reports/evidence_registry.json"
         },
         {
-          "name": "test_results.json",
-          "size_mb": "0.00",
-          "path": "reports/test_results.json"
+          "name": "stage-09-output-validation.json",
+          "size_mb": "0.02",
+          "path": "reports/snapshots/stage-09-output-validation.json"
         }
       ],
       "extensions": {
-        ".json": 2,
-        ".txt": 1,
-        ".md": 1
+        ".json": 13,
+        ".md": 2
       }
     },
     "simulations": {
-      "exists": false,
+      "exists": true,
       "file_count": 0,
       "size_mb": "0.00",
-      "total_size_bytes": 0
+      "total_size_bytes": 0,
+      "largest_files": [],
+      "extensions": {}
     },
     "llm": {
-      "exists": false,
+      "exists": true,
       "file_count": 0,
       "size_mb": "0.00",
-      "total_size_bytes": 0
+      "total_size_bytes": 0,
+      "largest_files": [],
+      "extensions": {}
     },
     "logs": {
-      "exists": false,
-      "file_count": 0,
+      "exists": true,
+      "file_count": 1,
       "size_mb": "0.00",
-      "total_size_bytes": 0
+      "total_size_bytes": 160,
+      "largest_files": [
+        {
+          "name": "pipeline.log",
+          "size_mb": "0.00",
+          "path": "logs/pipeline.log"
+        }
+      ],
+      "extensions": {
+        ".log": 1
+      }
     }
   },
-  "total_files": 102,
-  "total_size_mb": 2.6199893951416016,
+  "total_files": 108,
+  "total_size_mb": 2.953937530517578,
   "largest_files": [
     {
       "name": "template_autopoiesis_combined.pdf",
@@ -209,6 +215,12 @@
       "size_mb": "0.20",
       "category": "slides",
       "path": "slides/03_results_slides.pdf"
+    },
+    {
+      "name": "artifact_manifest.json",
+      "size_mb": "0.19",
+      "category": "reports",
+      "path": "reports/artifact_manifest.json"
     },
     {
       "name": "cover_art.png",
@@ -251,30 +263,23 @@
       "size_mb": "0.07",
       "category": "slides",
       "path": "slides/03_results_slides.log"
-    },
-    {
-      "name": "01_introduction_slides.log",
-      "size_mb": "0.06",
-      "category": "slides",
-      "path": "slides/01_introduction_slides.log"
     }
   ],
-  "missing_expected_files": [
-    "simulations/ directory",
-    "llm/ directory",
-    "logs/ directory"
-  ],
+  "missing_expected_files": [],
   "sizes_by_category": {
-    "pdf": 0.7437973022460938,
+    "pdf": 0.743800163269043,
     "web": 0.3345928192138672,
-    "slides": 1.2031879425048828,
-    "figures": 0.3283710479736328,
-    "data": 0.0020122528076171875,
-    "reports": 0.008028030395507812
+    "slides": 1.203195571899414,
+    "figures": 0.30701732635498047,
+    "data": 0.0011320114135742188,
+    "reports": 0.3640470504760742,
+    "simulations": 0.0,
+    "llm": 0.0,
+    "logs": 0.000152587890625
   },
   "file_counts_by_type": {
-    ".md": 3,
-    ".log": 10,
+    ".md": 4,
+    ".log": 11,
     ".aux": 9,
     ".blg": 1,
     ".bib": 1,
@@ -286,9 +291,7 @@
     ".nav": 8,
     ".vrb": 8,
     ".snm": 8,
-    ".png": 7,
-    ".mmd": 2,
-    ".json": 6,
-    ".txt": 1
+    ".png": 5,
+    ".json": 15
   }
 }

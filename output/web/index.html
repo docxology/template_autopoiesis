@@ -652,7 +652,9 @@ class="header-section-number">1.1</span> Generation pipeline</h3>
     V --&gt; S[Seal\nQR provenance]</code></pre>
 <h3 data-number="1.2" id="grammar-product-space"><span
 class="header-section-number">1.2</span> Grammar product space</h3>
-<pre class="mermaid"><code>flowchart TB
+<pre class="mermaid"><code>%% noqa: docs-lint — {{...}} tokens are manuscript-variable placeholders
+%% (src/manuscript_variables.py) injected at render time, not literal mermaid
+flowchart TB
     A[primitive_domain: 5] --&gt; EP[Effective product: 45 cells]
     T[track: 3] --&gt; EP
     S[section_set: 3] --&gt; EP
