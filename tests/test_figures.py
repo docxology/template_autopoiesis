@@ -1,4 +1,5 @@
 """Tests for figure rendering module."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -72,6 +73,14 @@ def test_render_single_element_array(tmp_path):
     assert path.exists()
 
 
+def test_render_empty_array_uses_explicit_empty_summary(tmp_path):
+    out = tmp_path / "empty.png"
+    path = render_primitive_figure("empty_arr", np.array([]), out)
+
+    assert path.exists()
+    assert "mean = n/a" in "\n".join(_scalar_summary_lines(np.array([])))
+
+
 def test_render_multi_element_array_plots(tmp_path):
     """A plain array with >1 elements takes the line-plot branch, not the summary branch."""
     out = tmp_path / "plotted.png"
@@ -111,10 +120,7 @@ def test_scalar_summary_lines_generic_repr_fallback():
 def test_figure_registry_roundtrip(tmp_path):
     prims = collect_primitives()
     domain = "optimization"
-    results = [
-        (spec.name, spec.fn(spec.example_input))
-        for spec in prims[domain]
-    ]
+    results = [(spec.name, spec.fn(spec.example_input)) for spec in prims[domain]]
     registry = build_figure_registry(domain, results, tmp_path)
     for name, path in registry.items():
         assert path.exists()
@@ -124,10 +130,7 @@ def test_figure_registry_roundtrip(tmp_path):
 def test_figure_registry_keys_match_names(tmp_path):
     prims = collect_primitives()
     domain = "signal"
-    results = [
-        (spec.name, spec.fn(spec.example_input))
-        for spec in prims[domain]
-    ]
+    results = [(spec.name, spec.fn(spec.example_input)) for spec in prims[domain]]
     registry = build_figure_registry(domain, results, tmp_path)
     expected_names = {spec.name for spec in prims[domain]}
     assert set(registry.keys()) == expected_names
@@ -142,10 +145,7 @@ def test_figure_count_all_domains(tmp_path):
     prims = collect_primitives()
     total = 0
     for domain in KNOWN_DOMAINS:
-        results = [
-            (spec.name, spec.fn(spec.example_input))
-            for spec in prims[domain]
-        ]
+        results = [(spec.name, spec.fn(spec.example_input)) for spec in prims[domain]]
         registry = build_figure_registry(domain, results, tmp_path / domain)
         total += len(registry)
     # 8 total primitives

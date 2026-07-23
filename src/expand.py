@@ -13,7 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from .grammar import Grammar
+from .common import DERIVED_SEED_BITS, HASH_PREFIX_HEX_LENGTH
+from .grammar import Grammar, GrammarError
 
 SCHEMA_VERSION = "autopoiesis/spec/1"
 _UNIT_SEP = "\x1f"
@@ -67,7 +68,7 @@ class Spec:
     def spec_hash(self) -> str:
         """Process spec hash."""
         canonical = json.dumps(self.to_dict(), sort_keys=True, separators=(",", ":"))
-        return hashlib.sha256(canonical.encode()).hexdigest()[:16]
+        return hashlib.sha256(canonical.encode()).hexdigest()[:HASH_PREFIX_HEX_LENGTH]
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +81,11 @@ def expand(grammar: Grammar, seed: Optional[int] = None) -> Spec:
 
     If *seed* is provided it overrides grammar.seed for this expansion.
     """
+    try:
+        grammar.slot("primitive_domain")
+    except KeyError as exc:
+        raise GrammarError("Grammar must define a primitive_domain slot before expansion") from exc
+
     effective_seed = grammar.seed if seed is None else seed
     selections: list[tuple[str, str]] = []
     primitive_domain = ""
@@ -90,12 +96,6 @@ def expand(grammar: Grammar, seed: Optional[int] = None) -> Spec:
         selections.append((slot.name, chosen))
         if slot.name == "primitive_domain":
             primitive_domain = chosen
-
-    # If no primitive_domain slot exists, fall back to first known domain
-    if not primitive_domain:
-        from .grammar import KNOWN_DOMAINS
-
-        primitive_domain = KNOWN_DOMAINS[0]
 
     return Spec(
         schema_version=SCHEMA_VERSION,
@@ -129,7 +129,7 @@ def derive_seed(base_seed: int, index: int) -> int:
     """Derive a deterministic child seed from *base_seed* and *index*."""
     key = f"{base_seed}{_UNIT_SEP}{index}"
     digest = hashlib.sha256(key.encode()).digest()
-    return int.from_bytes(digest[:8], "big") & 0x7FFFFFFFFFFFFFFF
+    return int.from_bytes(digest[:8], "big") & ((1 << DERIVED_SEED_BITS) - 1)
 
 
 # ---------------------------------------------------------------------------

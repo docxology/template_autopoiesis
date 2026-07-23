@@ -16,6 +16,8 @@ from typing import Optional
 
 import yaml
 
+from .common import HASH_PREFIX_HEX_LENGTH
+
 # ---------------------------------------------------------------------------
 # Domain / dependency constants
 # ---------------------------------------------------------------------------
@@ -67,9 +69,9 @@ class GrammarSlot:
     options: tuple[str, ...]
 
     def __post_init__(self) -> None:
-        if not self.name:
+        if not isinstance(self.name, str) or not self.name.strip():
             raise GrammarError("GrammarSlot.name must not be empty")
-        if not self.options:
+        if not self.options or any(not isinstance(option, str) or not option.strip() for option in self.options):
             raise GrammarError(f"GrammarSlot '{self.name}' must have ≥1 option")
         dupes = {o for o in self.options if self.options.count(o) > 1}
         if dupes:
@@ -119,7 +121,7 @@ class Grammar:
     def grammar_hash(self) -> str:
         """Process grammar hash."""
         canonical = self.canonical()
-        return hashlib.sha256(canonical.encode()).hexdigest()[:16]
+        return hashlib.sha256(canonical.encode()).hexdigest()[:HASH_PREFIX_HEX_LENGTH]
 
     def slot(self, name: str) -> GrammarSlot:
         """Process slot."""
@@ -156,15 +158,32 @@ def parse_grammar(block: dict, source_path: Optional[str] = None) -> Grammar:
     if not raw_slots:
         raise GrammarError("Grammar must define at least one slot")
 
+    # ``slots`` accepts two forms (see SYNTAX.md § Slot Format):
+    #   shorthand: {slot_name: [option, ...], ...}          (a mapping)
+    #   longhand:  [{"name": slot_name, "options": [...]}]  (a list of mappings)
+    # Normalize the shorthand mapping form into the longhand list-of-entries
+    # form here so the rest of parsing only has to handle one shape.
+    if not isinstance(raw_slots, (dict, list, tuple)):
+        raise GrammarError("Grammar slots must be a mapping or list")
+    if isinstance(raw_slots, dict):
+        raw_slots = [{"name": name, "options": options} for name, options in raw_slots.items()]
+
     slots: list[GrammarSlot] = []
     for entry in raw_slots:
         if not isinstance(entry, dict):
             raise GrammarError(f"Each slot must be a mapping, got {type(entry)}")
         name = entry.get("name", "")
-        options = tuple(entry.get("options", []))
+        raw_options = entry.get("options", [])
+        if not isinstance(raw_options, (list, tuple)):
+            raise GrammarError(f"Grammar slot '{name}' options must be a list")
+        options = tuple(raw_options)
         slots.append(GrammarSlot(name=name, options=options))
 
     raw_deps = block.get("deps", [])
+    if not isinstance(raw_deps, (list, tuple)):
+        raise GrammarError("Grammar deps must be a list")
+    if any(not isinstance(dep, str) for dep in raw_deps):
+        raise GrammarError("Grammar deps must contain only strings")
     for d in raw_deps:
         if d not in VENDORABLE_DEPS:
             raise GrammarError(f"Unknown dep '{d}'. Known: {VENDORABLE_DEPS}")
@@ -211,5 +230,10 @@ def load_grammar(project_root: str | Path) -> Grammar:
     with config_path.open() as fh:
         cfg = yaml.safe_load(fh)
 
-    block = cfg.get("autopoiesis", {})
+    # Project-owned settings live under the infrastructure schema's
+    # ``project_config`` passthrough.  Retain the former top-level lookup only
+    # for standalone forks created before that schema contract was introduced.
+    project_config = cfg.get("project_config", {})
+    nested = project_config.get("autopoiesis") if isinstance(project_config, dict) else None
+    block = nested if isinstance(nested, dict) else cfg.get("autopoiesis", {})
     return parse_grammar(block, source_path=str(config_path))

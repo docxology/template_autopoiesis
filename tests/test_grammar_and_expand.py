@@ -1,4 +1,5 @@
 """Tests for grammar and expand modules."""
+
 from __future__ import annotations
 
 import pytest
@@ -10,6 +11,7 @@ from src.grammar import (
     GrammarError,
     GrammarSlot,
     force_domain,
+    load_grammar,
     parse_grammar,
 )
 from src.expand import (
@@ -147,6 +149,27 @@ def test_parse_grammar_bad_type_raises():
         parse_grammar("not a dict")
 
 
+@pytest.mark.parametrize(
+    "block",
+    [
+        {"seed": 1, "slots": "primitive_domain", "deps": []},
+        {"seed": 1, "slots": [{"name": "primitive_domain", "options": "optimization"}], "deps": []},
+        {"seed": 1, "slots": [{"name": "primitive_domain", "options": [1]}], "deps": []},
+        {"seed": 1, "slots": [{"name": "primitive_domain", "options": ["optimization"]}], "deps": "logging"},
+    ],
+)
+def test_parse_grammar_rejects_under_specified_shapes(block):
+    with pytest.raises(GrammarError):
+        parse_grammar(block)
+
+
+def test_expand_rejects_grammar_without_primitive_domain():
+    grammar = parse_grammar({"seed": 1, "slots": [{"name": "other", "options": ["value"]}], "deps": []})
+
+    with pytest.raises(GrammarError, match="primitive_domain"):
+        expand(grammar)
+
+
 def test_parse_grammar_no_slots_raises():
     with pytest.raises(GrammarError):
         parse_grammar({"seed": 1, "slots": []})
@@ -159,6 +182,63 @@ def test_parse_grammar_unknown_dep_raises():
         parse_grammar(block)
 
 
+# ---------------------------------------------------------------------------
+# Shorthand slot form: ``slots: {name: [options, ...]}``
+#
+# SYNTAX.md documents this as a valid alternative to the longhand
+# ``slots: [{"name": ..., "options": [...]}]`` list form, and claims
+# parse_grammar() "normalizes both forms". Before the fix that added
+# shorthand normalization, feeding a shorthand mapping into parse_grammar
+# raised `GrammarError: Each slot must be a mapping, got <class 'str'>`
+# (iterating a dict yields its string keys, which then fail the
+# `isinstance(entry, dict)` check) — exactly the crash a fresh fork hits
+# when following manuscript/config.yaml.example's documented quickstart.
+# ---------------------------------------------------------------------------
+
+
+def test_parse_grammar_shorthand_slots_form_parses():
+    block = {
+        "seed": 42,
+        "slots": {
+            "primitive_domain": list(KNOWN_DOMAINS),
+            "dep_mode": ["template", "vendor"],
+        },
+        "deps": [],
+    }
+    g = parse_grammar(block)
+    assert len(g.slots) == 2
+    assert g.slot("primitive_domain").options == tuple(KNOWN_DOMAINS)
+    assert g.slot("dep_mode").options == ("template", "vendor")
+
+
+def test_parse_grammar_shorthand_matches_longhand_equivalent():
+    shorthand = parse_grammar(
+        {
+            "seed": 7,
+            "slots": {"primitive_domain": ["optimization", "dynamics"]},
+            "deps": [],
+        }
+    )
+    longhand = parse_grammar(
+        {
+            "seed": 7,
+            "slots": [{"name": "primitive_domain", "options": ["optimization", "dynamics"]}],
+            "deps": [],
+        }
+    )
+    assert shorthand.canonical() == longhand.canonical()
+    assert shorthand.grammar_hash == longhand.grammar_hash
+
+
+def test_parse_grammar_shorthand_single_option_slot():
+    # A single-string option list (as used by manuscript/config.yaml.example's
+    # `domain: [optimization, dynamics, statistics, signal, graph]`) must
+    # normalize the same way regardless of how many options it has.
+    block = {"seed": 1, "slots": {"domain": ["optimization"]}, "deps": []}
+    g = parse_grammar(block)
+    assert g.slot("domain").options == ("optimization",)
+
+
 def test_parse_grammar_grammar_hash_stable():
     g1 = parse_grammar(_make_block())
     g2 = parse_grammar(_make_block())
@@ -169,6 +249,26 @@ def test_parse_grammar_different_seed_different_hash():
     g1 = parse_grammar(_make_block(seed=1))
     g2 = parse_grammar(_make_block(seed=2))
     assert g1.grammar_hash != g2.grammar_hash
+
+
+def test_load_grammar_reads_project_config_passthrough(tmp_path):
+    manuscript = tmp_path / "manuscript"
+    manuscript.mkdir()
+    manuscript.joinpath("config.yaml").write_text(
+        "project_config:\n"
+        "  autopoiesis:\n"
+        "    seed: 17\n"
+        "    slots:\n"
+        "      - name: primitive_domain\n"
+        "        options: [optimization]\n"
+        "    deps: []\n",
+        encoding="utf-8",
+    )
+
+    grammar = load_grammar(tmp_path)
+
+    assert grammar.seed == 17
+    assert grammar.slot("primitive_domain").options == ("optimization",)
 
 
 # ---------------------------------------------------------------------------
@@ -280,6 +380,7 @@ def test_expand_to_json():
     spec = expand(g)
     j = spec.to_json()
     import json
+
     d = json.loads(j)
     assert "spec_hash" not in d or True  # spec_hash is a property, may not be in to_dict
     assert "seed" in d
@@ -373,6 +474,7 @@ def test_write_spec(tmp_path):
     result = write_spec(spec, out)
     assert result.exists()
     import json
+
     d = json.loads(result.read_text())
     assert d["seed"] == g.seed
 
