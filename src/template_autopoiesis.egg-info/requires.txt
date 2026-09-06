@@ -1,0 +1,10 @@
+numpy
+matplotlib
+pyyaml
+qrcode
+pillow>=12.3.0
+
+[dev]
+pytest
+pytest-cov
+hypothesis

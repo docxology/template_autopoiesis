@@ -84,13 +84,13 @@ not yet published.
 
 ## Criteria
 
-- [x] ISC-1: `manuscript/config.yaml` declares `metadata.geometry:
+- [x] ISC-1: `docs/manuscript/config.yaml` declares `metadata.geometry:
   "a4paper,margin=0.25in"` — verified by `Read`.
-- [x] ISC-2: `manuscript/preamble.md` no longer declares `\geometry{...}`
+- [x] ISC-2: `docs/manuscript/preamble.md` no longer declares `\geometry{...}`
   directly (would clash with pandoc-injected geometry) — verified by `Read`.
-- [x] ISC-3: `manuscript/preamble.md` declares `\usepackage{fontsize}` +
+- [x] ISC-3: `docs/manuscript/preamble.md` declares `\usepackage{fontsize}` +
   `\changefontsize[11pt]{9pt}` for a denser body font — verified by `Read`.
-- [x] ISC-4: `manuscript/config.yaml` declares `paper.cover.image:
+- [x] ISC-4: `docs/manuscript/config.yaml` declares `paper.cover.image:
   "figures/cover_art.png"` — verified by `Read`.
 - [x] ISC-5: The rendered PDF's title page shows the cover art image —
   verified via `pdftoppm` + visual inspection of `cover-01.png`.
@@ -113,7 +113,7 @@ not yet published.
 - [x] ISC-10: `src/manuscript_figures.py` (previously 0% covered, 71
   statements) has real tests — verified by `test_manuscript_figures.py` (7
   tests) and a `--cov` re-run showing 97.47%.
-- [x] ISC-11: `manuscript/config.yaml` declares an explicit `analysis.scripts`
+- [x] ISC-11: `docs/manuscript/config.yaml` declares an explicit `analysis.scripts`
   allowlist in dependency order, excluding `autopoiesis.py` (CLI entrypoint)
   and `seal_child.py` (library helper) — verified by `Read` and by
   `scripts/pipeline/stage_02_analysis.py` reporting `7/7` scripts completed
@@ -167,7 +167,7 @@ not yet published.
   `_UNSUPPORTED_CLAIM_PATTERN` honesty gate (absolute-certainty words) —
   verified: `test_main_honesty_exits_zero` failed once (30 hits across 5
   files) after the expansion pass, was fixed file-by-file, and now passes;
-  final `grep -in` sweep for the banned words across all `manuscript/*.md`
+  final `grep -in` sweep for the banned words across all `docs/manuscript/*.md`
   returns zero matches.
 - [x] ISC-21: The 3 pre-existing figures (previously generated but never
   referenced in any manuscript section) are now embedded with captions and
@@ -356,9 +356,9 @@ not yet published.
 
 ## Verification
 
-- ISC-1..4: `Read manuscript/config.yaml` shows `cover.image:
+- ISC-1..4: `Read docs/manuscript/config.yaml` shows `cover.image:
   "figures/cover_art.png"` and `metadata.geometry: "a4paper,margin=0.25in"`;
-  `Read manuscript/preamble.md` shows no `\geometry{` and shows
+  `Read docs/manuscript/preamble.md` shows no `\geometry{` and shows
   `\changefontsize[11pt]{9pt}`.
 - ISC-5..6, ISC-9: `pdftoppm -png -f 1 -l 1 output/pdf/template_autopoiesis_combined.pdf`
   → `cover-01.png` shows the existing donut-chart cover art on the title
@@ -402,12 +402,12 @@ not yet published.
 - ISC-18: `grep -c "PrimitiveSpec(" src/primitives/*.py` → optimization=2,
   dynamics=1, statistics=1, signal=2, graph=2 (sum=8), matching
   `03_results.md`'s stated per-domain counts exactly.
-- ISC-19: `grep -n "@property_based_testing" manuscript/*.md` → 5 hits
-  before fix, 0 after; `grep -on "@[A-Za-z_][A-Za-z_0-9.]*" manuscript/*.md
+- ISC-19: `grep -n "@property_based_testing" docs/manuscript/*.md` → 5 hits
+  before fix, 0 after; `grep -on "@[A-Za-z_][A-Za-z_0-9.]*" docs/manuscript/*.md
   | sort | uniq -c` final sweep shows every token is either a real bibtex
   key, a `@fig:` crossref, or inside a fenced code block.
 - ISC-20: `grep -in "100%|guaranteed|always|never|impossible|proven|certainly"
-  manuscript/*.md` → 30 hits before fix, 0 after;
+  docs/manuscript/*.md` → 30 hits before fix, 0 after;
   `uv run pytest tests/test_cli.py::test_main_honesty_exits_zero` → PASSED
   (was FAILED with `assert 1 == 0`).
 - ISC-21,22: `pdftoppm -f 9 -l 9` and `-f 12 -l 12` on the re-rendered PDF

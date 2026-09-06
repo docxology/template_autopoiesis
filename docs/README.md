@@ -19,7 +19,7 @@ expansion. Architecture: grammar → spec → materialize → verify → seal
 - `scripts/` — thin orchestrators over `src/`
 - `tests/` — pytest suite (`testpaths = ["tests"]`, `pythonpath = [".", "src"]`
   per `../pyproject.toml`)
-- `manuscript/` — section sources for the PDF manuscript
+- `docs/manuscript/` — section sources for the PDF manuscript
 - `data/`, `output/` — pipeline inputs and generated artifacts
 - `docs/` — this documentation folder
 

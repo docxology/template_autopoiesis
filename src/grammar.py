@@ -251,8 +251,8 @@ def force_domain(grammar: Grammar, domain: str) -> Grammar:
 
 
 def load_grammar(project_root: str | Path) -> Grammar:
-    """Load grammar from *project_root*/manuscript/config.yaml."""
-    config_path = Path(project_root) / "manuscript" / "config.yaml"
+    """Load grammar from *project_root*/docs/manuscript/config.yaml."""
+    config_path = Path(project_root) / "docs" / "manuscript" / "config.yaml"
     if not config_path.exists():
         raise FileNotFoundError(f"Config not found: {config_path}")
 

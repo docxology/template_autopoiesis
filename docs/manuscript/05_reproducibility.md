@@ -18,7 +18,7 @@ this manuscript is permitted to assert.
 
 ### Determinism guarantee
 
-Given the same `manuscript/config.yaml` grammar definition (grammar hash
+Given the same `docs/manuscript/config.yaml` grammar definition (grammar hash
 `{{GRAMMAR_HASH}}`), the same seed (`{{GRAMMAR_SEED}}`), and the same
 `template_autopoiesis` source tree, `scripts/autopoiesis.py expand` produces
 byte-identical selections on every invocation, and `materialize` produces a

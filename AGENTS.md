@@ -54,7 +54,7 @@ Decision memory and verifier hardening follow [`docs/rules/memory_and_decision_r
 
 ## Grammar Description
 
-Defined in `manuscript/config.yaml` under `autopoiesis:`:
+Defined in `docs/manuscript/config.yaml` under `autopoiesis:`:
 - `seed`: 42
 - `slots`: primitive_domain (5), track (3), section_set (3), figure_profile (2, reserved), qr_profile (2, reserved), integrity_profile (2, reserved)
 - Nominal product: 5×3×3×2×2×2 = 360
@@ -86,8 +86,8 @@ four referenced figures is missing, and writes the deterministic figure
 registry only after the complete set exists.
 
 ```bash
-# From repo root
-uv run pytest projects/templates/template_autopoiesis/tests/ --cov=projects/templates/template_autopoiesis/src --cov-fail-under=90 -q
+# From this project root
+uv run pytest --cov=src --cov-fail-under=90 -q
 ```
 
 ---

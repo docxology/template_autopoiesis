@@ -13,10 +13,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 def _minimal_source_copy(source: Path, destination: Path) -> Path:
     """Copy only source-owned Phase 10 inputs into a disposable root."""
-    (destination / "manuscript").mkdir(parents=True)
+    (destination / "docs" / "manuscript").mkdir(parents=True)
     for relative in REQUIRED_MANUSCRIPT_FILES:
-        source_path = source / "manuscript" / relative
-        target = destination / "manuscript" / relative
+        source_path = source / "docs" / "manuscript" / relative
+        target = destination / "docs" / "manuscript" / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source_path, target)
     shutil.copy2(source / "SPEC.md", destination / "SPEC.md")
@@ -29,7 +29,7 @@ def test_phase10_source_contract_passes_for_public_exemplar() -> None:
 
 def test_phase10_contract_rejects_unfenced_preamble(tmp_path: Path) -> None:
     root = _minimal_source_copy(PROJECT_ROOT, tmp_path / "project")
-    preamble = root / "manuscript" / "preamble.md"
+    preamble = root / "docs" / "manuscript" / "preamble.md"
     preamble.write_text(
         preamble.read_text(encoding="utf-8").replace("% END TEMPLATE_AUTOPOIESIS_PREAMBLE", ""),
         encoding="utf-8",
@@ -42,7 +42,7 @@ def test_phase10_contract_rejects_unfenced_preamble(tmp_path: Path) -> None:
 
 def test_phase10_contract_rejects_geometry_override(tmp_path: Path) -> None:
     root = _minimal_source_copy(PROJECT_ROOT, tmp_path / "project")
-    preamble = root / "manuscript" / "preamble.md"
+    preamble = root / "docs" / "manuscript" / "preamble.md"
     preamble.write_text(preamble.read_text(encoding="utf-8") + "\n\\geometry{margin=1in}\n", encoding="utf-8")
 
     issues = validate_phase10_contract(root)

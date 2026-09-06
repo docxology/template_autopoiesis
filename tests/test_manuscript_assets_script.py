@@ -13,7 +13,13 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT.parents[2]))
 
-from infrastructure.validation.content.figure_validator import validate_figure_registry  # noqa: E402
+try:
+    from infrastructure.validation.content.figure_validator import validate_figure_registry  # noqa: E402
+except ImportError:  # standalone checkout: `infrastructure/` exists only in the template monorepo
+    pytest.skip(
+        "shared `infrastructure` package not importable in this standalone checkout",
+        allow_module_level=True,
+    )
 
 SCRIPT = PROJECT_ROOT / "scripts" / "01_generate_manuscript_assets.py"
 
@@ -46,7 +52,7 @@ def test_generate_assets_writes_valid_registry_in_temp_tree(tmp_path: Path) -> N
     module = _load_script_module()
     figures = tmp_path / "project" / "output" / "figures"
     manuscript = tmp_path / "project" / "manuscript"
-    shutil.copytree(PROJECT_ROOT / "manuscript", manuscript)
+    shutil.copytree(PROJECT_ROOT / "docs" / "manuscript", manuscript)
 
     written = module.generate_assets(
         PROJECT_ROOT,
@@ -91,7 +97,7 @@ def test_validator_rejects_deleted_registered_figure(tmp_path: Path) -> None:
     module = _load_script_module()
     figures = tmp_path / "project" / "output" / "figures"
     manuscript = tmp_path / "project" / "manuscript"
-    shutil.copytree(PROJECT_ROOT / "manuscript", manuscript)
+    shutil.copytree(PROJECT_ROOT / "docs" / "manuscript", manuscript)
     module.generate_assets(
         PROJECT_ROOT,
         figures_dir=figures,

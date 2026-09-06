@@ -284,8 +284,8 @@ def test_parse_grammar_rejects_invalid_archetype_filters(filters):
 
 
 def test_load_grammar_reads_project_config_passthrough(tmp_path):
-    manuscript = tmp_path / "manuscript"
-    manuscript.mkdir()
+    manuscript = tmp_path / "docs" / "manuscript"
+    manuscript.mkdir(parents=True)
     manuscript.joinpath("config.yaml").write_text(
         "project_config:\n"
         "  autopoiesis:\n"
@@ -304,8 +304,8 @@ def test_load_grammar_reads_project_config_passthrough(tmp_path):
 
 
 def test_load_grammar_reads_archetype_filters(tmp_path):
-    manuscript = tmp_path / "manuscript"
-    manuscript.mkdir()
+    manuscript = tmp_path / "docs" / "manuscript"
+    manuscript.mkdir(parents=True)
     manuscript.joinpath("config.yaml").write_text(
         "project_config:\n"
         "  autopoiesis:\n"

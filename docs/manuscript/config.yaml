@@ -26,7 +26,7 @@ keywords:
 
 metadata:
   license: "MIT"
-  # Denser page layout (see manuscript/preamble.md for the paired 9pt font
+  # Denser page layout (see docs/manuscript/preamble.md for the paired 9pt font
   # rescale). Forwarded to pandoc as `-V geometry:` by
   # infrastructure/rendering/_pdf_combined_pandoc.py::build_pandoc_tex_command.
   geometry: "a4paper,margin=0.25in"

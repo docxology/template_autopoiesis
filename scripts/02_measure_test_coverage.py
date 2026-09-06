@@ -6,7 +6,7 @@ Writes ``output/data/test_coverage_summary.json`` so
 and COVERAGE_PCT tokens from an actual measurement instead of a hardcoded
 literal, and ``output/data/coverage_full.json`` (the raw per-module report) so
 ``01_generate_manuscript_assets.py::fig_coverage_by_module`` can plot real,
-per-module coverage. Runs first in ``manuscript/config.yaml``'s
+per-module coverage. Runs first in ``docs/manuscript/config.yaml``'s
 ``analysis.scripts`` allowlist so both downstream consumers see fresh data.
 """
 

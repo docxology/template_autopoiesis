@@ -25,7 +25,7 @@ def _load_mermaid_blocks(md_file: Path) -> list[str]:
 
 
 def _all_manuscript_mds() -> list[Path]:
-    ms_dir = PROJECT_ROOT / "manuscript"
+    ms_dir = PROJECT_ROOT / "docs" / "manuscript"
     return sorted(ms_dir.glob("*.md"))
 
 
