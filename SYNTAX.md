@@ -2,17 +2,18 @@
 
 ## Grammar Structure
 
-The grammar is defined in `docs/manuscript/config.yaml` under the `autopoiesis:` key:
+The grammar is defined in `docs/manuscript/config.yaml` under the
+`project_config.autopoiesis:` key (a top-level `autopoiesis:` fallback remains
+for standalone forks created before that schema):
 
 ```yaml
-autopoiesis:
-  seed: 1618033          # integer — seeds all deterministic selections
-  slots:                 # list of slot mappings
-    domain: [a, b, c]    # shorthand: slot name → list of options
-    section_set: [x, y]
-  deps:                  # list of vendorable dependency names
-    logging: template    # dep_name: mode (template|vendor)
-    glossary_gen: vendor
+project_config:
+  autopoiesis:
+    seed: 1618033        # integer — seeds all deterministic selections
+    slots:               # shorthand mapping: slot name → list of options
+      domain: [a, b, c]
+      section_set: [x, y]
+    deps: [logging, glossary_gen]  # list of vendorable dependency names
 ```
 
 ---
@@ -64,13 +65,14 @@ Reserved slots are included in the nominal product size but are not varied in th
 ## Deps Syntax
 
 ```yaml
-deps:
-  logging: template          # use template infrastructure seam
-  glossary_gen: vendor       # vendor as single-file stub
+deps: [logging, glossary_gen]   # list of vendorable dependency names
 ```
 
 Valid dep names: `logging`, `glossary_gen`, `figure_manager`, `manuscript_injection`, `steganography`.
-Valid modes: `template`, `vendor`.
+
+`parse_grammar()` requires `deps` to be a list of these names; a mapping form
+raises `GrammarError: Grammar deps must be a list`. The `template`/`vendor`
+modes are selected later, at materialization time, not in the grammar block.
 
 ---
 
