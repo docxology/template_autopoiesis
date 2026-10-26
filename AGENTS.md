@@ -1,6 +1,6 @@
 # AGENTS.md — template_autopoiesis
 
-Decision memory and verifier hardening follow [`docs/rules/memory_and_decision_records.md`](../../../docs/rules/memory_and_decision_records.md).
+Decision memory and verifier hardening follow the monorepo rule at `docs/rules/memory_and_decision_records.md` (monorepo-only path; not present in this standalone checkout).
 
 ## Overview
 
@@ -95,7 +95,7 @@ uv run pytest --cov=src --cov-fail-under=90 -q
 ## Test Files
 
 The live suite count is measured by `pytest --collect-only` and published in
-the generated repository snapshot [`docs/_generated/COUNTS.md`](../../../docs/_generated/COUNTS.md).
+the monorepo's generated repository snapshot `docs/_generated/COUNTS.md` (monorepo-only path).
 The detailed table below is a historical 2026-08-09 receipt for audit context,
 not a current release claim; refresh the project measurement before citing it:
 
@@ -135,10 +135,10 @@ not a current release claim; refresh the project measurement before citing it:
 ## Key Metadata
 
 - **Coverage target**: 90% (`fail_under=90`)
-- **Test count**: measured live by `measure_test_summary()` — see `output/data/manuscript_variables.json` for the value at last render, and [`COUNTS.md`](../../../docs/_generated/COUNTS.md) for the regenerated repo-wide totals (the count drifts upward release to release as tests are added, so it is not pinned here)
+- **Test count**: measured live by `measure_test_summary()` — see `output/data/manuscript_variables.json` for the value at last render, and the monorepo's generated `docs/_generated/COUNTS.md` for the regenerated repo-wide totals (the count drifts upward release to release as tests are added, so it is not pinned here)
 - **Coverage**: measured live in `output/data/manuscript_variables.json`; use
-  [`docs/_generated/COUNTS.md`](../../../docs/_generated/COUNTS.md) for the
-  current repo-wide snapshot.
+  `docs/_generated/COUNTS.md` (monorepo-only path) for the current repo-wide
+  snapshot.
 - **Grammar seed**: 42
 - **Domains**: optimization, dynamics, statistics, signal, graph
 - **Reserved slots**: figure_profile, qr_profile, integrity_profile

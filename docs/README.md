@@ -26,10 +26,17 @@ expansion. Architecture: grammar → spec → materialize → verify → seal
 ## How to run / test
 
 The CLI (`src/cli.py`) exposes: `enumerate`, `expand`, `sample`,
-`materialize`, `verify`, `honesty`. Tests: `pytest` (configured in
-`../pyproject.toml`; dev extras: pytest, pytest-cov, hypothesis). Exact
-invocation of monorepo pipeline stages lives in the root monorepo
-documentation; this standalone checkout carries its own `pyproject.toml`.
+`materialize`, `verify`, `honesty`. Install dev tooling and run the suite:
+
+```bash
+uv sync --extra dev
+uv run pytest --cov=src --cov-fail-under=90 -q
+```
+
+Tests are configured in `../pyproject.toml` (dev extras: pytest, pytest-cov,
+hypothesis). Exact invocation of monorepo pipeline stages lives in the root
+monorepo documentation; this standalone checkout carries its own
+`pyproject.toml`.
 
 ## Maintenance
 

@@ -36,15 +36,15 @@ See [`SYNTAX.md`](SYNTAX.md) for grammar syntax, [`config.yaml.example`](docs/ma
 ## Template integrity
 
 This project is a **canonical template exemplar**. To use it:
-1. Fork or copy the `projects/templates/template_autopoiesis/` directory
+1. Fork or copy this repository (or, inside the template monorepo, the `projects/templates/template_autopoiesis/` directory)
 2. Edit `docs/manuscript/config.yaml` with your own grammar and metadata
-3. Run `uv sync && uv run pytest` to verify
+3. Run `uv sync --extra dev && uv run pytest` to verify
 
 Standalone usage is documented in [`STANDALONE.md`](STANDALONE.md).
 
 ---
 
-> **Status:** Public exemplar · [DOI: 10.5281/zenodo.21227869](https://doi.org/10.5281/zenodo.21227869) · test count and coverage move with the code — see the "Publication and rendering" section below (generated from a live measurement) rather than a hand-typed number here.
+> **Status:** Public exemplar · [DOI: 10.5281/zenodo.21227869](https://doi.org/10.5281/zenodo.21227869) · test count and coverage move with the code — see `output/data/manuscript_variables.json` (generated from a live measurement) rather than a hand-typed number here.
 
 ---
 
@@ -112,7 +112,7 @@ uv run python scripts/z_generate_manuscript_variables.py
 
 ```
 
-> **Chrome / Puppeteer note:** PDF rendering uses the shared `infrastructure/rendering` pipeline and requires Chrome/Chromium. Child projects render their own tests only — PDF rendering of child manuscripts is not supported.
+> **PDF rendering note:** PDF rendering uses the shared `infrastructure/rendering` pipeline and requires Chrome/Chromium. Child projects render their own tests only — PDF rendering of child manuscripts is not supported.
 
 ---
 
@@ -168,5 +168,6 @@ _Status legend: ✅ published (durable identifier recorded in `config.yaml`) · 
 ## Build
 
 ```bash
+uv sync --extra dev
 uv run pytest --cov=src --cov-fail-under=90 -q
 ```

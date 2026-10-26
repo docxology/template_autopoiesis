@@ -51,7 +51,7 @@ Optional infrastructure modules (logging, glossary_gen, figure_manager, etc.) ar
 
 ```bash
 # From the template_autopoiesis project directory:
-pip install numpy matplotlib pyyaml qrcode pillow
+pip install numpy matplotlib pyyaml qrcode "pillow>=12.3.0" pytest
 pytest tests/ -q  # noqa: docs-lint — standalone pip/venv workflow, no uv-managed interpreter here
 
 # To generate a child project:

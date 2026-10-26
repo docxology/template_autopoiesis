@@ -107,13 +107,19 @@ The grammar hash is the first 16 hex characters of SHA-256 of the canonical JSON
 
 ```python
 canonical = json.dumps(
-    {"seed": seed, "slots": [...], "deps": [...]},
+    {
+        "seed": seed,
+        "slots": [{"name": name, "options": options}, ...],
+        "deps": [...],
+        "archetype_filters": {name: options, ...},
+    },
     sort_keys=True, separators=(',', ':')
 )
 grammar_hash = hashlib.sha256(canonical.encode()).hexdigest()[:16]
 ```
 
-A change to any slot name, option, or dep changes the grammar hash.
+A change to any slot name, option, dep, or archetype filter changes the
+grammar hash.
 
 ---
 
