@@ -6,14 +6,15 @@ and subprocess CLI invocations.
 ## Running
 
 ```bash
-uv run pytest projects/templates/template_autopoiesis/tests/ \
-  --cov=projects/templates/template_autopoiesis/src --cov-fail-under=90
+uv run pytest --cov=src --cov-fail-under=90 -q
 ```
 
 ## Files on disk
 
-This is the complete current test-module inventory (525 collected test
-items, including parametrized cases):
+This is the complete current test-module inventory (522 collected test
+items in this standalone checkout, including parametrized cases; a full run
+reports 523 outcomes because `test_manuscript_assets_script.py` skips at
+module import when the shared `infrastructure` package is absent):
 
 | Test module | Collected items |
 |---|---:|
@@ -26,7 +27,7 @@ items, including parametrized cases):
 | `test_grammar_and_expand.py` | 67 |
 | `test_honesty.py` | 17 |
 | `test_integrity_and_verify.py` | 32 |
-| `test_manuscript_assets_script.py` | 3 |
+| `test_manuscript_assets_script.py` | 0 (skipped in standalone) |
 | `test_manuscript_contract.py` | 3 |
 | `test_manuscript_figures.py` | 9 |
 | `test_manuscript_mermaid.py` | 6 |
