@@ -10,7 +10,7 @@ description = "Autopoietic project generator: combinatoric specification, infras
 authors = [
     {name = "Daniel Ari Friedman", email = "daniel@activeinference.institute"}
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "numpy",
     "matplotlib",
