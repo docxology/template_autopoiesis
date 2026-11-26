@@ -49,16 +49,16 @@ def validate_phase10_contract(project_root: str | Path) -> list[str]:
         if re.search(r"(?m)^\s*\\geometry\{", preamble):
             issues.append("preamble must not override config-driven geometry")
 
-    spec_path = root / "SPEC.md"
+    spec_path = root / "docs" / "SPEC.md"
     if not spec_path.is_file():
-        issues.append("missing SPEC.md")
+        issues.append("missing docs/SPEC.md")
     else:
         spec = spec_path.read_text(encoding="utf-8")
         for phase in REQUIRED_SPEC_PHASES:
             if f"{phase} —" not in spec and f"{phase} --" not in spec:
-                issues.append(f"SPEC.md is missing {phase} checklist")
+                issues.append(f"docs/SPEC.md is missing {phase} checklist")
         if "P10" in spec and "Phase 10" not in spec:
-            issues.append("SPEC.md P10 heading must name Phase 10")
+            issues.append("docs/SPEC.md P10 heading must name Phase 10")
 
     return issues
 

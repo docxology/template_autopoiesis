@@ -184,7 +184,7 @@ def _resolve_deps(spec: Spec, template_root: Path) -> tuple[dict[str, str], dict
         raise ValueError(f"Unknown dep_mode '{dep_mode}'. Known: ('vendor', 'template')")
 
     if dep_mode == "template":
-        # SYNTAX.md documents a per-dependency "template" mode ("use template
+        # docs/SYNTAX.md documents a per-dependency "template" mode ("use template
         # infrastructure seam") as an alternative to "vendor" ("vendor as
         # single-file stub"), but that mode has never been implemented: only
         # a single scalar `dep_mode` selection exists (there is no per-dep
@@ -198,10 +198,10 @@ def _resolve_deps(spec: Spec, template_root: Path) -> tuple[dict[str, str], dict
         # relaxing that self-containment guarantee or defining a new,
         # currently-unspecified seam contract. Fail loudly instead of
         # silently producing zero files/seam so a fork cannot mistake this
-        # for a working feature. See TODO.md for the tracked follow-up.
+        # for a working feature. See docs/archive/TODO.md for the tracked follow-up.
         raise NotImplementedError(
             "dep_mode='template' is a documented-but-unimplemented gap in "
-            "materialize.py::_resolve_deps — see SYNTAX.md 'Deps Syntax' and "
+            "materialize.py::_resolve_deps — see docs/SYNTAX.md 'Deps Syntax' and "
             "the code comment at this raise site. Use dep_mode='vendor' "
             "instead, or implement the template seam contract before relying "
             "on this mode."

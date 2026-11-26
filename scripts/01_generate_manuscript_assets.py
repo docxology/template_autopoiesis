@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from shutil import copyfile
 import sys
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from infrastructure.documentation.generated_figure_registry import write_generat
 from src.manuscript_figures import (
     FIGURE_REGISTRY_SCHEMA,
     MANUSCRIPT_FIGURE_SPECS,
+    STATIC_DIAGRAM_SPECS,
     fig_coverage_by_module,
     generate_manuscript_figures,
 )
@@ -37,9 +39,12 @@ def generate_assets(
 
     written: list[Path] = generate_manuscript_figures(root, destination)
     written.append(fig_coverage_by_module(coverage, destination))
+    source_diagrams = root / "docs" / "manuscript" / "figures"
+    for spec in STATIC_DIAGRAM_SPECS:
+        written.append(Path(copyfile(source_diagrams / spec.filename, destination / spec.filename)))
     registry = write_generated_figure_registry(
         destination / "figure_registry.json",
-        MANUSCRIPT_FIGURE_SPECS,
+        (*MANUSCRIPT_FIGURE_SPECS, *STATIC_DIAGRAM_SPECS),
         written,
         schema_version=FIGURE_REGISTRY_SCHEMA,
     )

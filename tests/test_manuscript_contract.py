@@ -19,7 +19,7 @@ def _minimal_source_copy(source: Path, destination: Path) -> Path:
         target = destination / "docs" / "manuscript" / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source_path, target)
-    shutil.copy2(source / "SPEC.md", destination / "SPEC.md")
+    shutil.copy2(source / "docs" / "SPEC.md", destination / "docs" / "SPEC.md")
     return destination
 
 

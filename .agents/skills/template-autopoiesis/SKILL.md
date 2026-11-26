@@ -58,7 +58,7 @@ uv run python projects/templates/template_autopoiesis/scripts/seal_child.py
 
 - Project contract: [`AGENTS.md`](../../../AGENTS.md)
 - README: [`README.md`](../../../README.md)
-- Grammar syntax: [`SYNTAX.md`](../../../SYNTAX.md)
-- Standalone usage: [`STANDALONE.md`](../../../STANDALONE.md)
-- TODO: [`TODO.md`](../../../TODO.md)
+- Grammar syntax: [`docs/SYNTAX.md`](../../../docs/SYNTAX.md)
+- Standalone usage: [`docs/usage.md`](../../../docs/usage.md)
+- Historical backlog: [`docs/archive/TODO.md`](../../../docs/archive/TODO.md)
 - Exemplar roster: `projects/AGENTS.md` (template monorepo path; not present in this standalone checkout)

@@ -1,44 +1,18 @@
-# docs/ — template_autopoiesis
+# template_autopoiesis documentation
 
-Human-facing documentation entry point. Agent-facing rules:
-[`AGENTS.md`](AGENTS.md). Root overview: [`../README.md`](../README.md).
+A seeded grammar selects a specification, materializes a runnable child tree,
+and verifies that tree against its provenance before optional QR sealing.
 
-## What this repo is
+- [Setup, usage, and verification](usage.md) covers the standalone CLI,
+  vendoring boundaries, and the branch-coverage gate.
+- [Grammar syntax](SYNTAX.md) describes slots, reserved options, seed, and
+  dependency configuration. The [live configuration](manuscript/config.yaml)
+  also defines the manuscript metadata and analysis order.
+- [Source verification contract](SPEC.md) records the Phase 10 requirements.
+- [Manuscript](manuscript/README.md) lists sections, references, and source
+  assets. [Build the manuscript](manuscript-build.md) for PDF and HTML.
+- [Historical records](archive/README.md) preserve prior audits and backlog.
 
-`template_autopoiesis` (v1.0.1, MIT) is a combinatoric project generator:
-a grammar deterministically emits complete child projects from a seeded
-expansion. Architecture: grammar → spec → materialize → verify → seal
-(from `../AGENTS.md`).
-
-## Directory map
-
-- `src/` — grammar parsing, expansion, materialization, verification,
-  sealing, honesty manifest, integrity hashing, manuscript contract and
-  figure writers (module inventory in `../AGENTS.md`; per-module notes in
-  `src/README.md`)
-- `scripts/` — thin orchestrators over `src/`
-- `tests/` — pytest suite (`testpaths = ["tests"]`, `pythonpath = [".", "src"]`
-  per `../pyproject.toml`)
-- `docs/manuscript/` — section sources for the PDF manuscript
-- `data/`, `output/` — pipeline inputs and generated artifacts
-- `docs/` — this documentation folder
-
-## How to run / test
-
-The CLI (`src/cli.py`) exposes: `enumerate`, `expand`, `sample`,
-`materialize`, `verify`, `honesty`. Install dev tooling and run the suite:
-
-```bash
-uv sync --extra dev
-uv run pytest --cov=src --cov-fail-under=90 -q
-```
-
-Tests are configured in `../pyproject.toml` (dev extras: pytest, pytest-cov,
-hypothesis). Exact invocation of monorepo pipeline stages lives in the root
-monorepo documentation; this standalone checkout carries its own
-`pyproject.toml`.
-
-## Maintenance
-
-Docs here are short and factual, derived from the repo's own files. Update
-the map above when top-level layout changes.
+See the [source](../src/), [script reference](../scripts/README.md),
+and [tests](../tests/) for implementation details. Published records and
+release identifiers are listed in the [repository README](../README.md).

@@ -17,11 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 # ---------------------------------------------------------------------------
 
 
-def _load_mermaid_blocks(md_file: Path) -> list[str]:
-    """Extract content inside ```mermaid ... ``` fences."""
-    text = md_file.read_text()
-    blocks = re.findall(r"```mermaid(.*?)```", text, re.DOTALL)
-    return blocks
+DIAGRAM_DIR = PROJECT_ROOT / "docs" / "manuscript" / "figures"
 
 
 def _all_manuscript_mds() -> list[Path]:
@@ -48,12 +44,13 @@ def test_manuscript_mds_exist():
     assert len(mds) >= 5, f"Expected ≥5 manuscript md files, got {len(mds)}"
 
 
-def test_mermaid_blocks_present():
-    mds = _all_manuscript_mds()
-    all_blocks = []
-    for md in mds:
-        all_blocks.extend(_load_mermaid_blocks(md))
-    assert len(all_blocks) >= 3, "Expected at least 3 mermaid diagrams across manuscript"
+def test_mermaid_sources_and_rasters_are_present():
+    manuscript = "\n".join(path.read_text() for path in _all_manuscript_mds())
+    names = ("generation-pipeline", "grammar-product", "generation-methods")
+    for name in names:
+        assert (DIAGRAM_DIR / f"{name}.mmd").is_file()
+        assert (DIAGRAM_DIR / f"{name}.png").is_file()
+        assert f"output/figures/{name}.png" in manuscript
 
 
 @pytest.mark.parametrize(
@@ -65,17 +62,12 @@ def test_mermaid_blocks_present():
 )
 def test_reserved_slot_options_not_in_mermaid(slot, options):
     """Reserved slot option strings should not appear as node labels in Mermaid blocks."""
-    mds = _all_manuscript_mds()
-    for md in mds:
-        blocks = _load_mermaid_blocks(md)
-        for block in blocks:
-            for opt in options:
-                # Check that the option is not used as a bracketed node label
-                # e.g. [mermaid_only] would be suspicious
-                pattern = rf"\[{re.escape(opt)}\]"
-                assert not re.search(pattern, block), (
-                    f"Reserved slot option '{opt}' for '{slot}' found as node label in Mermaid block in {md.name}"
-                )
+    for source in DIAGRAM_DIR.glob("*.mmd"):
+        for opt in options:
+            pattern = rf"\[{re.escape(opt)}\]"
+            assert not re.search(pattern, source.read_text()), (
+                f"Reserved slot option '{opt}' appears as a node label in {source.name}"
+            )
 
 
 def test_grammar_reserved_slots_are_named():

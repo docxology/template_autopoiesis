@@ -1,132 +1,12 @@
 # template_autopoiesis
 
-> **Public exemplar** — [DOI: 10.5281/zenodo.21227869](https://doi.org/10.5281/zenodo.21227869)
+A seeded combinatoric grammar that generates runnable child projects with
+their own source, tests, scripts, and manuscript. The examples use numerical
+and graph kernels across optimization, dynamics, statistics, signal processing,
+and graph analysis. Verification recomputes child-tree hashes from disk.
 
-A combinatoric **grammar** that deterministically generates whole runnable projects — `src/`, `tests/`, `scripts/`, and `docs/manuscript/` — one level past a manuscript generator.
-
-## When to use this template
-
-Use this template when you need to **generate runnable project trees
-deterministically** — not a manuscript, but a whole child project (its own
-`src/`, `tests/`, `scripts/`, and `docs/manuscript/`) selected by a seed from a
-combinatoric grammar, with recompute-based provenance verification and a
-falsifiable honesty manifest against green-by-construction test theater. It
-extends `template_madlib` one level up: from generating *a manuscript* to
-generating *a project that generates a manuscript*. If you only need
-token-driven manuscript generation without the project-generation layer, use
-`template_madlib` directly instead; if you need a manuscript template with no
-generative grammar at all, see `template_code_project` or
-`template_prose_project`.
-
-Concretely, this template provides:
-- A combinatoric grammar that emits whole projects (src/, tests/, scripts/, docs/manuscript/)
-- Children that pass their own `pytest --cov 90` gate with real audited kernels
-- Recompute verification (never trust recorded hashes)
-- A falsifiable honesty manifest against green-by-construction theater
-
-## Configuring from this template
-
-Edit `docs/manuscript/config.yaml`:
-- The `autopoiesis:` block controls the grammar (slots, options, seed, deps)
-- The `paper:` block controls publication metadata
-- The `analysis:` block controls which scripts run on render
-
-See [`SYNTAX.md`](SYNTAX.md) for grammar syntax, [`config.yaml.example`](docs/manuscript/config.yaml.example) for a fork-safe starting point.
-
-## Template integrity
-
-This project is a **canonical template exemplar**. To use it:
-1. Fork or copy this repository (or, inside the template monorepo, the `projects/templates/template_autopoiesis/` directory)
-2. Edit `docs/manuscript/config.yaml` with your own grammar and metadata
-3. Run `uv sync --extra dev && uv run pytest` to verify
-
-Standalone usage is documented in [`STANDALONE.md`](STANDALONE.md).
-
----
-
-> **Status:** Public exemplar · [DOI: 10.5281/zenodo.21227869](https://doi.org/10.5281/zenodo.21227869) · test count and coverage move with the code — see `output/data/manuscript_variables.json` (generated from a live measurement) rather than a hand-typed number here.
-
----
-
-## What it does
-
-```mermaid
-flowchart LR
-    G[Grammar] --> S[Seeded spec.json]
-    S --> M[Byte-stable materialize]
-    M --> V[Recompute-verify from disk]
-    V --> Q[QR seal]
-```
-
-The spine:
-
-1. **Grammar** — defined in `docs/manuscript/config.yaml` under `autopoiesis:`. Slots × options = archetypes.
-2. **Expand** — deterministic SHA-256-based selection, no entropy source.
-3. **Materialize** — writes a complete child project to `output/children/child_{domain}_{spec_hash}/`.
-4. **Verify** — recomputes tree hash from disk and checks against `provenance.json`.
-5. **Seal** — embeds spec hash + tree hash as a QR code in `seal.json`.
-
-The dominant failure mode of project generators — **green-by-construction test theater** — is defeated by:
-
-- Analytic ground-truth primitive kernels (5 domains, 8 kernels)
-- Mutation meta-gate (`test_meta_teeth.py`): stub `run_analysis` must *fail*
-- Recompute verifier: hash derived from disk, never cached
-
----
-
-## Drive it
-
-```bash
-# Expand the grammar to a spec
-uv run python scripts/autopoiesis.py expand
-
-# Materialize a child project
-uv run python scripts/autopoiesis.py materialize --out-root output/children
-
-# Verify a child
-uv run python scripts/autopoiesis.py verify output/children/child_optimization_XXXX
-
-# Check the falsifiable honesty manifest (this template's headline feature)
-uv run python scripts/autopoiesis.py honesty
-
-# Realize one child per domain (smoke test)
-uv run python scripts/realize_archetypes.py
-
-# Full realize + verify pipeline
-uv run python scripts/realize_child_full.py
-```
-
----
-
-## Render the manuscript
-
-```bash
-# Generate figures
-uv run python scripts/01_generate_manuscript_assets.py
-
-# Generate cover art
-uv run python scripts/generate_cover_art.py
-
-# Generate manuscript variables
-uv run python scripts/z_generate_manuscript_variables.py
-
-```
-
-> **PDF rendering note:** PDF rendering uses the shared `infrastructure/rendering` pipeline and requires Chrome/Chromium. Child projects render their own tests only — PDF rendering of child manuscripts is not supported.
-
----
-
-## Determinism
-
-Given the same `grammar_hash` and `seed`, every output is bit-for-bit identical on the same platform:
-
-- All slot selections use `_digest_index` (SHA-256, no `random.random()`)
-- Tree hash computed over sorted `(path, content_hash)` pairs
-- Provenance JSON serialized with `sort_keys=True`
-
-Verified by `test_materialize.py::test_materialize_tree_hash_stable` and `test_property_invariants.py`.
-
----
+Start with the [documentation](docs/README.md) for installation, grammar
+configuration, child generation, tests, and the project's own manuscript.
 
 ## Publication and rendering
 
@@ -164,10 +44,3 @@ _Keywords: autopoiesis, combinatoric grammar, deterministic generation, project 
 
 _Status legend: ✅ published (durable identifier recorded in `config.yaml`) · 🔵 reserved (identifier reserved but not yet registered by final publication) · ⚪ available (adapter implemented and locally verifiable) · 🟡 planned. This block is generated — edit `docs/manuscript/config.yaml`, then regenerate with `uv run python -m infrastructure.publishing.status_report --project <path> --write`._
 <!-- PUBLISHING-STATUS:END -->
-
-## Build
-
-```bash
-uv sync --extra dev
-uv run pytest --cov=src --cov-fail-under=90 -q
-```

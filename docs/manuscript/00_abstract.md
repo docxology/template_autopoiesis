@@ -15,7 +15,7 @@ traceability without making any of the three independently checkable. This
 exemplar treats each claim as a structural property to verify rather than a
 rhetorical one to assert: `verify_child()` recomputes a tree hash from the
 files actually on disk and compares it against the recorded provenance,
-rather than trusting a value the same run wrote down; a honesty manifest
+rather than trusting a value the same run wrote down; an honesty manifest
 inspects the live source AST to confirm every claim in this manuscript
 resolves to a real function in a real file; and a per-domain mutation gate
 checks that the acceptance tests reject a constant-success stub before
@@ -25,32 +25,17 @@ live measurement rather than hand-typed as a literal.
 
 Across {{DOMAIN_COUNT}} heterogeneous primitive domains
 ({{DOMAIN_BULLETS}}), {{TEST_COUNT}} tests exercise both fixed ground-truth
-checks and Hypothesis-driven property invariants at {{COVERAGE_PCT}}% branch
+checks and Hypothesis-driven property invariants at {{COVERAGE_PCT}}% statement and branch
 coverage, with an explicit negative control per domain distinguishing the
 real kernel from a deliberately-wrong one.
 
 ### Generation pipeline
 
-```mermaid
-flowchart LR
-    G[Grammar\nconfig.yaml] --> E[Expand\nseed → Spec]
-    E --> M[Materialize\nSpec → Child]
-    M --> V[Verify\ntree-hash check]
-    V --> S[Seal\nQR provenance]
-```
+![Seeded grammar expansion produces a specification, then a child tree. Verification recomputes the tree hash before QR sealing.](../../output/figures/generation-pipeline.png){#fig:generation-pipeline width=85%}
 
 ### Grammar product space
 
-```mermaid
-%% noqa: docs-lint — {{...}} tokens are manuscript-variable placeholders
-%% (src/manuscript_variables.py) injected at render time, not literal mermaid
-flowchart TB
-    A[primitive_domain: 5] --> EP[Effective product: {{EFFECTIVE_PRODUCT_SIZE}} cells]
-    T[track: 3] --> EP
-    S[section_set: 3] --> EP
-    EP --> TP[Total product: {{PRODUCT_SIZE}} cells]
-    R[3 reserved slots, 2 options each] --> TP
-```
+![In the shipped grammar, five domains, three tracks, and three section sets yield 45 effective cells. The reserved slots expand the nominal space to 360 cells.](../../output/figures/grammar-product.png){#fig:grammar-product width=85%}
 
 - **Domain count**: {{DOMAIN_COUNT}}
 - **Effective product size**: {{EFFECTIVE_PRODUCT_SIZE}}

@@ -165,46 +165,27 @@ without trusting any claim made in this document.
 
 ### Toolchain
 
-- Python ≥ 3.10
-- `numpy`, `matplotlib`, `pyyaml` (runtime)
-- `pytest`, `pytest-cov` (test)
-- `hypothesis` [@claessen2000quickcheck; @maciver2019hypothesis] (declared
-  under this project's `dev` optional-dependency group in `pyproject.toml`,
-  but imported unconditionally at the top of `test_property_invariants.py` —
-  a real dependency of that test module, not a soft, try/except-guarded one;
-  see Methods)
-- `qrcode`, `pillow` (optional — `src/sealing.py`'s QR/barcode payload
-  encoding degrades to a deterministic stub when unavailable; `pyzbar` is
-  needed only for the optional decode path)
+The standalone generator requires Python 3.11 or later. Its runtime
+dependencies are NumPy, Matplotlib, PyYAML, qrcode, and Pillow. The development
+extra includes pytest, pytest-cov, and Hypothesis
+[@claessen2000quickcheck; @maciver2019hypothesis]. QR decoding is optional
+and needs a working pyzbar/zbar installation.
 
-Outside the parent `template` repository checkout, `STANDALONE.md` documents
-what is and is not vendored into a generated child project: single-file
-modules under `primitives/` and `figures.py` are copied in and the child runs
-entirely from its own vendored sources at runtime, with no dependency on the
-parent's `src/`; optional infrastructure modules (logging, glossary
-generation, figure management) are vendored as single-file stubs when the
-corresponding module cannot be found under the parent repo's
-`infrastructure/` tree. PDF/HTML rendering and prerender validation are
-explicitly **not** vendored — a standalone child can be expanded, materialized,
-tested, and verified, but manuscript rendering to PDF still requires the
-parent repository's `infrastructure/rendering` and `infrastructure/validation`
-modules. Byte-stability of a materialized tree is documented as
-within-platform only (same Python interpreter, same OS) rather than an
-unconditional cross-platform guarantee.
+Child projects carry their own primitive kernels and figure helper.
+Optional single-file infrastructure dependencies can be vendored as stubs
+when their source is absent. PDF and HTML rendering use the separate Template
+infrastructure. Byte-stability measurements apply within the same Python
+and operating-system environment.
 
 ### Build command
 
+From the standalone project root:
+
 ```bash
-uv run pytest projects/templates/template_autopoiesis/tests/ \
-  --cov=projects/templates/template_autopoiesis/src \
-  --cov-fail-under=90
+uv sync --locked --python 3.13 --extra dev
+uv run --no-sync pytest --cov=src --cov-branch --cov-fail-under=90 -q
 ```
 
-This is the same command family `measure_test_summary()` runs internally
-(with `--cov-branch` added explicitly, matching the repo-root
-`pyproject.toml`'s `branch = true` setting rather than this project's own,
-so the reported {{COVERAGE_PCT}} agrees with the authoritative CI gate
-methodology rather than silently using a different one) to produce the
-{{TEST_COUNT}} and {{COVERAGE_PCT}} tokens substituted above — the same
-build, not a paraphrase of it, is the source of both this document's prose
-and its own regeneration.
+The preparation script `scripts/02_measure_test_coverage.py` independently
+runs the suite with branch coverage and writes the test count, aggregate
+coverage, and per-module data used by the results and coverage figure.

@@ -65,6 +65,9 @@ def test_generate_assets_writes_valid_registry_in_temp_tree(tmp_path: Path) -> N
         "fig_domain_coverage.png",
         "fig_product_space.png",
         "fig_coverage_by_module.png",
+        "generation-pipeline.png",
+        "grammar-product.png",
+        "generation-methods.png",
         "figure_registry.json",
     }
     registry = figures / "figure_registry.json"
@@ -74,7 +77,11 @@ def test_generate_assets_writes_valid_registry_in_temp_tree(tmp_path: Path) -> N
         "fig:domain_coverage",
         "fig:product_space",
         "fig:coverage_by_module",
+        "fig:generation-pipeline",
+        "fig:grammar-product",
+        "fig:generation-methods",
     }
+    assert all(record["metadata"]["alt_text"].strip() for record in payload["figures"])
     ok, issues = validate_figure_registry(registry, manuscript)
     assert ok, issues
 
