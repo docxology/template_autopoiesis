@@ -1,3 +1,4 @@
+```latex
 % BEGIN TEMPLATE_AUTOPOIESIS_PREAMBLE
 % Page margins are config-driven: docs/manuscript/config.yaml -> metadata.geometry
 % (forwarded to pandoc as `-V geometry:`). Do not declare \geometry{...} here —
@@ -11,6 +12,11 @@
 \usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
 \usepackage{xcolor}
 % Dense 9pt body via class-agnostic global rescaling (works on the default
 % `article` class). Signature: \changefontsize[<baselineskip>]{<size>} — the
@@ -27,3 +33,4 @@
 \definecolor{brand-teal}{HTML}{0d9488}
 \definecolor{brand-slate}{HTML}{1e293b}
 % END TEMPLATE_AUTOPOIESIS_PREAMBLE
+```

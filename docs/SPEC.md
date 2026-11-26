@@ -11,7 +11,7 @@
 ## Phases
 
 ### P0 — Grammar definition ✅
-- Grammar defined in `docs/manuscript/config.yaml` under `autopoiesis:`
+- Grammar defined in `docs/manuscript/config.yaml` under `project_config.autopoiesis`
 - `parse_grammar()` validates structure: non-empty slots, no duplicate options, known deps
 - Grammar hash: 16-char SHA-256 prefix of canonical JSON
 
@@ -34,7 +34,7 @@
 ### P4 — Seal ✅
 - `build_payload(spec_hash, tree_hash, seed)` → JSON
 - `qr_matrix(data)` → 2D bool array (uses qrcode if available, fallback stub)
-- `seal.json` is non-repudiation artifact
+- `seal.json` records the digest payload for recompute verification
 
 ### P5 — Primitive library ✅
 - 5 domains: optimization, dynamics, statistics, signal, graph

@@ -171,7 +171,7 @@ hierarchy: `template_madlib` generates a manuscript from a token grammar;
 that generated project is itself capable of running its own test gate. The
 demonstration primitive library intentionally spans a small, heterogeneous
 set of domains chosen for orthogonality of failure mode, not for domain
-significance — the honest scope notes in `SPEC.md` are explicit that no
+significance — the honest scope notes in `docs/SPEC.md` are explicit that no
 domain-specific research claim is being made here. This template covers the
 {{DOMAIN_COUNT}} primitive domains:
 {{DOMAIN_BULLETS}}

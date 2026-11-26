@@ -22,6 +22,7 @@ class ManuscriptFigureSpec:
     filename: str
     caption: str
     generated_by: str
+    alt_text: str
 
 
 FIGURE_REGISTRY_SCHEMA = "template-autopoiesis-figure-registry-v1"
@@ -31,24 +32,52 @@ MANUSCRIPT_FIGURE_SPECS: tuple[ManuscriptFigureSpec, ...] = (
         filename="fig_stacked_product.png",
         caption="Option counts for the three effective grammar slots, shown as a stacked bar.",
         generated_by="src.manuscript_figures.fig_stacked_product",
+        alt_text="Stacked bar with one band for each effective grammar slot and its option count.",
     ),
     ManuscriptFigureSpec(
         label="fig:product_space",
         filename="fig_product_space.png",
         caption="Total, effective, and reserved-only grammar product sizes.",
         generated_by="src.manuscript_figures.fig_product_space_annotation",
+        alt_text="Bar chart comparing nominal, effective, and reserved-only grammar product sizes.",
     ),
     ManuscriptFigureSpec(
         label="fig:domain_coverage",
         filename="fig_domain_coverage.png",
         caption="The five primitive domains, shown with distinct type colors.",
         generated_by="src.manuscript_figures.fig_domain_coverage",
+        alt_text="Five distinct colored bars representing optimization, dynamics, statistics, signal, and graph.",
     ),
     ManuscriptFigureSpec(
         label="fig:coverage_by_module",
         filename="fig_coverage_by_module.png",
-        caption="Measured branch coverage by source module with the 90 percent floor marked.",
+        caption="Measured statement and branch coverage by source module with the 90 percent floor marked.",
         generated_by="src.manuscript_figures.fig_coverage_by_module",
+        alt_text="Horizontal coverage bars for source modules, ordered by percentage, with a vertical reference line at 90 percent.",
+    ),
+)
+
+STATIC_DIAGRAM_SPECS: tuple[ManuscriptFigureSpec, ...] = (
+    ManuscriptFigureSpec(
+        label="fig:generation-pipeline",
+        filename="generation-pipeline.png",
+        caption="Generation pipeline.",
+        generated_by="Mermaid CLI from generation-pipeline.mmd",
+        alt_text="Seeded grammar expansion produces a specification, then a child tree. Verification recomputes the tree hash before QR sealing.",
+    ),
+    ManuscriptFigureSpec(
+        label="fig:grammar-product",
+        filename="grammar-product.png",
+        caption="Grammar product.",
+        generated_by="Mermaid CLI from grammar-product.mmd",
+        alt_text="In the shipped grammar, five domains, three tracks, and three section sets yield 45 effective cells. The reserved slots expand the nominal space to 360 cells.",
+    ),
+    ManuscriptFigureSpec(
+        label="fig:generation-methods",
+        filename="generation-methods.png",
+        caption="Generation methods.",
+        generated_by="Mermaid CLI from generation-methods.mmd",
+        alt_text="Five stages load the grammar, expand a spec, materialize a child, verify integrity, and create the seal and QR code.",
     ),
 )
 _SPEC_BY_LABEL = {spec.label: spec for spec in MANUSCRIPT_FIGURE_SPECS}
@@ -217,7 +246,7 @@ def fig_coverage_by_module(coverage_full_json: Path, out_dir: Path) -> Path:
     ax.axvline(90, color="#334155", linestyle="--", linewidth=1)
     ax.text(90.5, len(names) - 0.5, "90% floor", fontsize=8, color="#334155", va="top")
     ax.set_xlim(0, 105)
-    ax.set_xlabel("Branch coverage (%)")
+    ax.set_xlabel("Statement and branch coverage (%)")
     ax.set_title("Per-module test coverage (real, measured this build)")
     fig.tight_layout()
     out = out_dir / _SPEC_BY_LABEL["fig:coverage_by_module"].filename

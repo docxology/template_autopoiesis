@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from importlib.util import find_spec
 import json
 import os
 import re
@@ -41,18 +42,18 @@ def measure_test_summary(
     report is discarded — used by ``fig_coverage_by_module`` to plot real,
     per-module coverage rather than a single aggregate number.
 
-    Uses the monorepo root's own ``.venv`` interpreter, not ``sys.executable``:
-    when the pipeline invokes this project's scripts via ``uv run --directory
-    <project_root>`` (a non-workspace-member project gets its own isolated
-    ``.venv`` per `uv`'s workspace rules), ``sys.executable`` resolves to that
-    project-local venv, which has no ``pytest``/``coverage`` installed — the
-    subprocess then fails silently into the ``"pending"`` path.
+    Prefer the active Python when it has the development dependencies.
+    The monorepo's stage runner may use a project environment without the
+    dev extra, so fall back to the monorepo's test environment in that case.
     """
     project_root = Path(project_root)
     tests_dir = project_root / "tests"
     src_dir = project_root / "src"
-    repo_root_python = Path(__file__).resolve().parents[4] / ".venv" / "bin" / "python3"
-    python = str(repo_root_python) if repo_root_python.is_file() else sys.executable
+    python = sys.executable
+    if any(find_spec(module) is None for module in ("pytest", "pytest_cov", "hypothesis")):
+        repo_root_python = Path(__file__).resolve().parents[4] / ".venv" / "bin" / "python3"
+        if repo_root_python.is_file():
+            python = str(repo_root_python)
     with tempfile.TemporaryDirectory() as tmp:
         cov_json = Path(tmp) / "coverage.json"
         # Isolate coverage so this inner pytest never inherits or pollutes the
@@ -87,7 +88,7 @@ def measure_test_summary(
                 env=isolated_env,
             )
             match = _PASSED_RE.search(result.stdout)
-            if not match or not cov_json.is_file():
+            if result.returncode or not match or not cov_json.is_file():
                 return "pending", "pending"
             test_count = int(match.group(1))
             coverage_data = json.loads(cov_json.read_text())

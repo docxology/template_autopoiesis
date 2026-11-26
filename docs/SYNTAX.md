@@ -72,7 +72,8 @@ Valid dep names: `logging`, `glossary_gen`, `figure_manager`, `manuscript_inject
 
 `parse_grammar()` requires `deps` to be a list of these names; a mapping form
 raises `GrammarError: Grammar deps must be a list`. The `template`/`vendor`
-modes are selected later, at materialization time, not in the grammar block.
+modes are selected at materialization time. The current implementation
+supports `vendor`. Selecting `template` raises `NotImplementedError`.
 
 ---
 

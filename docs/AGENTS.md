@@ -7,10 +7,9 @@
 
 ## Key modules (pointer, not duplication)
 
-The full module inventory table lives in `../AGENTS.md`; per-module notes in
-`src/README.md` and `tests/README.md`. Other governing docs:
-`../SPEC.md`, `../SYNTAX.md`, `../IMPROVEMENTS.md`, `../STANDALONE.md`,
-`../TODO.md`.
+The full module inventory lives in `../AGENTS.md`. See
+[the documentation index](README.md), [grammar syntax](SYNTAX.md), and
+[the source contract](SPEC.md).
 
 ## Conventions observed in this repo
 
@@ -26,5 +25,4 @@ The full module inventory table lives in `../AGENTS.md`; per-module notes in
 
 ## Maintaining these docs
 
-Keep both files short (30–80 lines), factual, and derived only from repo
-files. Do not duplicate module-level rules here.
+Keep current guides concise and grounded in repository files. Do not duplicate module-level rules here.

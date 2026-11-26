@@ -8,13 +8,7 @@ in its own module (`src/grammar.py`, `src/expand.py`, `src/materialize.py`,
 network access; every stage takes an immutable input and returns an immutable
 (or file-system-materialized) output.
 
-```mermaid
-flowchart LR
-    A[Load Grammar] --> B[Expand Spec]
-    B --> C[Materialize Child]
-    C --> D[Verify Integrity]
-    D --> E[Seal + QR]
-```
+![Five stages load the grammar, expand a spec, materialize a child, verify integrity, and create the seal and QR code.](../../output/figures/generation-methods.png){#fig:generation-methods width=85%}
 
 ### Stage A — Grammar loading and validation
 
@@ -83,7 +77,7 @@ side-by-side rather than only the larger, more impressive-looking number —
 this is the paper's concrete instance of the "hard to vary" honesty
 discipline the project holds itself to (see the Honesty Contract, §4).
 `{{RESERVED_SLOT_COUNT}}` reserved slots (`{{RESERVED_SLOT_NAMES}}`) are
-excluded from the effective figure; `SYNTAX.md` documents the same slot
+excluded from the effective figure; `docs/SYNTAX.md` documents the same slot
 table and the *inflation factor* (nominal ÷ effective) as a first-class,
 honestly-reported quantity rather than an implementation detail.
 
@@ -284,7 +278,7 @@ provenance idea introduced for digital signatures
 [@merkle_tree_provenance]. As of this writing `merkle_root()` is a
 standalone, independently-tested utility: `integrity_profile` is declared
 as a reserved grammar slot (options `sha256`, `merkle` in this project's
-own `config.yaml`; `SYNTAX.md` documents a longer illustrative option list
+own `config.yaml`; `docs/SYNTAX.md` documents a longer illustrative option list
 including `merkle_kmyth`), but neither `materialize()` nor `verify_child()`
 currently branches on its selected value — the slot is present in the
 grammar and excluded from the effective product size, but is not yet wired

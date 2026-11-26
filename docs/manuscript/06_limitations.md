@@ -84,15 +84,14 @@ proofs. `integrity.py` separately defines `merkle_root`, an actual
 pairwise-reduction tree, but `materialize()`/`verify()` call the flat
 function, not that one.
 
-### Coverage is uneven across modules, not uniform (though every module now clears the floor)
+### Coverage is uneven across modules
 
 Two earlier drafts of this section each named a different below-floor
 trio — first `sealing.py`/`verify.py`/`cli.py`, then, after those were
-hardened, `common.py`/`figures.py`/`cover_art.py`. As of this measurement no
-module sits below the 90% branch-coverage line
-([@fig:coverage_by_module]): dedicated tests were added for `common.py`'s
-`trunc()` clipping branch and `CheckReport.failed` (`tests/test_common.py`,
-new this session), `figures.py`'s `list`/`tuple` input branch of
+hardened, `common.py`/`figures.py`/`cover_art.py`. The current per-module
+results appear in [@fig:coverage_by_module]. Dedicated tests were added for
+`common.py`'s `trunc()` clipping branch and `CheckReport.failed`
+(`tests/test_common.py`), `figures.py`'s `list`/`tuple` input branch of
 `_first_plottable_array`, the generic `repr()` fallback in
 `_scalar_summary_lines`, and the array-plotting branch of
 `render_primitive_figure` (`tests/test_figures.py`), and `cover_art.py`'s
@@ -100,18 +99,10 @@ QR-seal drawing branch (`tests/test_cover_art.py`,
 `test_render_cover_with_grammar_hash_*`) — the same branch identified above
 as running in production but previously untested.
 
-Smaller residual gaps remain in modules that are otherwise well above the
-floor: `sealing.py`'s `read_qr_matrix` `pyzbar`-decode path is untested since
-`pyzbar` is not installed here; `verify.py`'s schema-version and
-malformed-JSON `except` branches are not independently exercised; `cli.py`'s
-`cmd_materialize`/`cmd_verify` have no end-to-end CLI-level test, though the
-library functions they wrap are covered elsewhere in `test_materialize.py`
-and `test_integrity_and_verify.py`; `honesty.py` itself sits closest to the
-floor at just above 90%. None of these pull the aggregate below the 90%
-floor (`--cov-fail-under=90`), and the aggregate {{COVERAGE_PCT}} alone would
-obscure exactly where the remaining, smaller gaps live — which is the reason
-this section, and [@fig:coverage_by_module], exist as a per-module view
-rather than trusting one headline number. Property-based tests
+The `read_qr_matrix()` decoder requires optional local pyzbar support.
+The aggregate {{COVERAGE_PCT}}% combines statement and branch coverage.
+The 90% test gate applies to that aggregate. The per-module chart shows
+where coverage gaps remain. Property-based tests
 (`tests/test_property_invariants.py`, Hypothesis) and a stress/edge suite
 (`tests/test_stress_edge_cases.py`) cover invariants like boundary seeds and
 all-reserved-slot configurations [@claessen2000quickcheck;

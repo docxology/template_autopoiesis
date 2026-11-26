@@ -1,18 +1,18 @@
-# Manuscript
+# Autopoietic Project Generation
 
-Section sources for PDF rendering. See [`AGENTS.md`](AGENTS.md).
+[Build the manuscript](../manuscript-build.md) to regenerate coverage evidence,
+figures, and PDF and HTML outputs.
 
-## Sections
+1. [Abstract](00_abstract.md)
+2. [Introduction](01_introduction.md)
+3. [Methods](02_methods.md)
+4. [Results](03_results.md)
+5. [Honesty](04_honesty.md)
+6. [Reproducibility](05_reproducibility.md)
+7. [Limitations](06_limitations.md)
+8. [References](99_references.md)
 
-- `00_abstract.md` — abstract
-- `01_introduction.md` — introduction
-- `02_methods.md` — methods
-- `03_results.md` — results (uses `{{TOKEN}}` variables hydrated from
-  generated analysis outputs)
-- `04_honesty.md` — honesty manifest discussion
-- `05_reproducibility.md` — reproducibility
-- `06_limitations.md` — limitations
-- `99_references.md` — references (`references.bib`)
-
-Supporting files: `config.yaml` (project configuration; see
-`config.yaml.example`), `preamble.md`, `references.bib`, `AGENTS.md`.
+The [configuration](config.yaml) contains the grammar and publication metadata.
+The [configuration example](config.yaml.example) is a starting point for forks.
+The [preamble](preamble.md) and [bibliography](references.bib) are renderer inputs.
+The three [authored diagram sources and PNGs](figures/README.md) are maintained here.
