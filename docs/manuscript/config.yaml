@@ -8,6 +8,7 @@ paper:
   date: "2026-07-06"
   cover:
     image: "figures/cover_art.png"
+    alt: "A five-segment ring shows the project generation domains of dynamics, optimization, graph, signal, and statistics."
 
 authors:
   - name: "Daniel Ari Friedman"
