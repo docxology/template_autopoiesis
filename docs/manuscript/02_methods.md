@@ -106,8 +106,8 @@ Four inputs — the seed, the slot's own name, its ordinal position in the
 slot list, and the full joined option string — are concatenated with an
 ASCII unit-separator (`\x1f`) between fields and hashed with SHA-256. The
 first eight bytes of the digest are read as a big-endian integer and reduced
-modulo the option count. This construction has three consequences load-
-bearing for the rest of the pipeline:
+modulo the option count. This construction has three load-bearing consequences
+for the rest of the pipeline.
 
 - **No shared PRNG state.** Each slot's selection is an independent hash of
   its own key, not a draw from a stateful random-number generator advanced
