@@ -85,10 +85,8 @@ uv run python scripts/z_generate_manuscript_variables.py
 four referenced figures is missing, and writes the deterministic figure
 registry only after the complete set exists.
 
-```bash
-# From this project root
-uv run pytest --cov=src --cov-fail-under=90 -q
-```
+From the project root, follow the [locked Python 3.13 development setup and
+90% branch-coverage check](docs/usage.md).
 
 ---
 
